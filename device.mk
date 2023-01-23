@@ -22,6 +22,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
 $(call inherit-product-if-exists, vendor/lineage/config/common_full_tablet_wifionly.mk)
 $(call inherit-product-if-exists, vendor/bliss/config/common_full_tablet_wifionly.mk)
 
+# Enable automatic partition size
+PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
+
 # Audio HAL
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-service \
