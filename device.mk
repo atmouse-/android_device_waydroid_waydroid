@@ -216,3 +216,6 @@ ifeq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
 PRODUCT_EXTRA_VNDK_VERSIONS := 28 29
 endif
 
+# Use FUSE passthrough
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.sys.fuse.passthrough.enable=true
