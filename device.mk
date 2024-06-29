@@ -219,3 +219,7 @@ endif
 # Updater
 PRODUCT_PACKAGES += \
     WaydroidUpdater
+
+# Use FUSE passthrough
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.sys.fuse.passthrough.enable=true
