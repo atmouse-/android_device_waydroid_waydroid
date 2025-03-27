@@ -25,3 +25,9 @@ PRODUCT_DEVICE := waydroid_x86_64
 PRODUCT_MANUFACTURER := Waydroid
 PRODUCT_NAME := lineage_waydroid_x86_64
 PRODUCT_MODEL := WayDroid x86_64 Device
+
+# Workaround build fingerprint too long
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    PRIVATE_BUILD_DESC="waydroid_x86_64-userdebug 11 RQ3A.211001.001 0 test-keys"
+
+BUILD_FINGERPRINT := waydroid/waydroid_x86_64/waydroid_x86_64:11/RQ3A.211001.001/0:userdebug/test-keys
