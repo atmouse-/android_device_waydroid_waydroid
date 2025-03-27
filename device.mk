@@ -243,6 +243,3 @@ ifeq ($(filter %_waydroid_x86 %_waydroid_x86_64 %_waydroid_tv%,$(TARGET_PRODUCT)
 PRODUCT_EXTRA_VNDK_VERSIONS := 28 29 30
 endif
 
-# Updater
-PRODUCT_PACKAGES += \
-    WaydroidUpdater
