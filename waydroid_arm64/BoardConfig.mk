@@ -28,3 +28,9 @@ TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
+
+ifneq ($(TARGET_USE_MESA),false)
+BOARD_MESA3D_MESON_ARGS := -Dallow-kcmp=enabled -Dmesa-clc=system -Dprecomp-compiler=system
+BOARD_MESA3D_GALLIUM_DRIVERS := v3d vc4 panfrost radeonsi
+BOARD_MESA3D_VULKAN_DRIVERS := broadcom amd
+endif
