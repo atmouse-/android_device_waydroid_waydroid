@@ -234,3 +234,5 @@ ifeq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
 PRODUCT_EXTRA_VNDK_VERSIONS := 28 29 30
 endif
 
+TANGO_PRETRANSLATE_WHITELIST := device/waydroid/waydroid/oriole-tango-whitelist.txt
+include $(wildcard vendor/amanieu/tango/tango.mk)
