@@ -142,6 +142,7 @@ PRODUCT_PACKAGES += \
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/media_codecs_v4l2_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_v4l2_c2_video.xml \
     $(LOCAL_PATH)/configs/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
     $(LOCAL_PATH)/configs/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
@@ -172,6 +173,56 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.sf.omx-plugin=libffmpeg_omx.so \
     media.sf.hwaccel=1
 endif
+
+# FFmpeg
+PRODUCT_PACKAGES += \
+	android.hardware.media.c2@1.2-service-ffmpeg
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/seccomp_policy/android.hardware.media.c2@1.2-ffmpeg-extended.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/android.hardware.media.c2@1.2-ffmpeg-extended.policy
+
+# V4l2
+# Add the folder to the namespace.
+PRODUCT_SOONG_NAMESPACES += external/v4l2_codec2
+
+# Add the build target.
+PRODUCT_PACKAGES += \
+    android.hardware.media.c2@1.0-service-v4l2 \
+    libc2plugin_store
+
+# If a customized allocator is needed, then add this package.
+# See more detail at "Customized allocator" section.
+PRODUCT_PACKAGES += \
+    libv4l2_codec2_vendor_allocator
+
+# Set the customized property of v4l2_codec2, including:
+# - The maximum concurrent instances for decoder/encoder.
+#   It should be the same as "concurrent-instances" at media_codec_c2.xml.
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.v4l2_codec2.rank.decoder=256 \
+    persist.v4l2_codec2.rank.encoder=128 \
+    ro.vendor.v4l2_codec2.decode_concurrent_instances=8 \
+    ro.vendor.v4l2_codec2.encode_concurrent_instances=8
+
+# Codec2.0 poolMask:
+#   ION(16)
+#   BUFFERQUEUE(18)
+#   BLOB(19)
+#   V4L2_BUFFERQUEUE(20)
+#   V4L2_BUFFERPOOL(21)
+#   SECURE_LINEAR(22)
+#   SECURE_GRAPHIC(23)
+#
+# For linear buffer allocation:
+#   If ION is chosen, then the mask should be 0xf50000
+#   If BLOB is chosen, then the mask should be 0xfc0000
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.stagefright.c2-poolmask=0xf50000
+
+# Install extended policy for codec2.
+# The destination is: /vendor/etc/seccomp_policy/codec2.vendor.ext.policy
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/seccomp_policy/codec2.vendor.ext.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/codec2.vendor.ext.policy
 
 # Memtrack
 PRODUCT_PACKAGES += \
